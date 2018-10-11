@@ -2,4 +2,4 @@
 - Robin Berguerand
 - Arthur Vernet
 
-[Report link] (https://www.overleaf.com/8274881383mhvqpvfgcrbk)
+[Report link](https://www.overleaf.com/8274881383mhvqpvfgcrbk)
