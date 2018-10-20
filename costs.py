@@ -1,10 +1,13 @@
 import numpy as np
-from proj1_helpers import *
+from proj1_helpers import predict_labels
 
-def accuracy(y, tx, w):
-    pred=predict_labels(w,tx)
-    e=y-pred
-    return (1/(2*len(y)))*sum(e**2)
+def compute_categorical_loss(y, tx, w):
+    """Compute the percentage of wrongly categorized predictions."""
+    pred = predict_labels(w, tx)
+    e = y - pred
+    N = y.shape[0]
+    loss = compute_mae(e)/2
+    return loss
 
 def compute_mse_loss(y, tx, w):
     """Compute the mean square error."""
@@ -24,5 +27,5 @@ def compute_mse(e):
     return loss
 
 def compute_mae(e):
-    loss = np.mean(abs(e))/2
+    loss = np.mean(abs(e))
     return loss

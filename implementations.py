@@ -1,7 +1,6 @@
 import numpy as np
 from costs import *
-from gradient_descent import compute_gradient
-from helpers import batch_iter
+from implementations_helper import *
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     """Linear regression using gradient descent."""
