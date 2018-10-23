@@ -1,13 +1,13 @@
 import numpy as np
 
-def remove_outliers(x):
+def remove_missing_values(x):
     """Remove columns contaniing outliers (-999)."""
     x_clean = x.copy()
     x_clean = x_clean[:, [np.count_nonzero(x.T[i] == -999) == 0 for i in range (x.shape[1])]]
     x_clean = standardize(x_clean)
     return x_clean
 
-def set_outliers_to_mean(x):
+def set_missing_values_to_mean(x):
     """Set outliers values (-999) to the mean of their respective column."""
     x_clean = x.copy()
     x_clean[x_clean == -999] = np.nan
