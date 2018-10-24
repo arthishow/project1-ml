@@ -4,9 +4,9 @@ def remove_missing_values(x):
     """Remove columns contaniing outliers (-999)."""
     x_clean = x.copy()
     x_clean = x_clean[:, [np.count_nonzero(x.T[i] == -999) == 0 for i in range (x.shape[1])]]
-    x_clean = standardize(x_clean)
     return x_clean
 
+#https://stackoverflow.com/questions/18689235/numpy-array-replace-nan-values-with-average-of-columns
 def set_missing_values_to_mean(x):
     """Set outliers values (-999) to the mean of their respective column."""
     x_clean = x.copy()
@@ -14,7 +14,6 @@ def set_missing_values_to_mean(x):
     col_means = np.nanmean(x_clean, axis=0)
     inds = np.where(np.isnan(x_clean))
     x_clean[inds] = np.take(col_means, inds[1])
-    x_clean = standardize(x_clean)
     return x_clean
 
 def standardize(x):

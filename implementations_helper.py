@@ -1,4 +1,5 @@
 import numpy as np
+from costs import compute_error
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
