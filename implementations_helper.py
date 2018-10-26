@@ -1,9 +1,9 @@
 import numpy as np
 from costs import compute_error
-
+from proj1_helpers import *
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
-    e = compute_error(y, tx, w)
+    e = abs(y-predict_labels(w,tx))
     N = y.shape[0]
     grad = -(tx.T@e)/N
     return (grad, e)

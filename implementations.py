@@ -8,7 +8,8 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     for n_iter in range(max_iters):
         grad, e = compute_gradient(y, tx, w)
         w = w - gamma*grad
-    loss = compute_mse(e)
+        loss = compute_categorical_loss(y,tx,w)
+        print(loss)
     return (w, loss)
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
@@ -19,7 +20,7 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size):
             grad, e = compute_gradient(y_batch, tx_batch, w)
             w = w - gamma*grad
-    loss = compute_mse(e)
+    loss = compute_categorical(e)
     return (w, loss)
 
 def least_squares(y, tx):
