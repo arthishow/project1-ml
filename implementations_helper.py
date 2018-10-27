@@ -1,6 +1,7 @@
 import numpy as np
 from costs import compute_error
-from proj1_helpers import *
+from proj1_helpers import predict_labels
+
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     e = abs(y-predict_labels(w,tx))
