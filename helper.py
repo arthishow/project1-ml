@@ -1,10 +1,12 @@
 import numpy as np
+from implementations import least_squares
+from proj1_helpers import predict_labels
 
 def generate_prediction(x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, y_tr_3, x_te_0, x_te_1, x_te_2, x_te_3, jet_num_te):
-    w_0 = least_squares(y_tr_0, build_poly(x_tr_0, 9))
-    w_1 = least_squares(y_tr_1, build_poly(x_tr_1, 15))
-    w_2 = least_squares(y_tr_2, build_poly(x_tr_2, 13))
-    w_3 = least_squares(y_tr_3, build_poly(x_tr_3, 12))
+    w_0, _ = least_squares(y_tr_0, build_poly(x_tr_0, 9))
+    w_1, _ = least_squares(y_tr_1, build_poly(x_tr_1, 15))
+    w_2, _ = least_squares(y_tr_2, build_poly(x_tr_2, 13))
+    w_3, _ = least_squares(y_tr_3, build_poly(x_tr_3, 12))
 
     y_te_0 = predict_labels(w_0, build_poly(x_te_0, 9))
     y_te_1 = predict_labels(w_1, build_poly(x_te_1, 15))
