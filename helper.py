@@ -31,7 +31,6 @@ def generate_prediction(x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, 
 
     return predicted_y_te
 
-
 def preprocess_datasets(x_tr, y_tr, x_te, y_te):
     x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, y_tr_3, _ = split_dataset_by_jet_num(x_tr, y_tr)
     x_te_0, _, x_te_1, _, x_te_2, _, x_te_3, _, jet_num_te = split_dataset_by_jet_num(x_te, y_te)

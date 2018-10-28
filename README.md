@@ -11,7 +11,7 @@ $ python run.py
 A prediction, called *output.csv*, will be created in a folder named *predictions*.
 
 ### Code architecture
-The project was developped using the following file architecture:
+The project was developped using the following file architecture:  
 *run.py* : The script outputting a prediction.  
 *proj1_helpers.py* : Given helper methods (e.g. to load/output *.csv* files).  
 *implementations.py* : Required implementations of the 6 basic ML methods.  
