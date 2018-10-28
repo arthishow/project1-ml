@@ -18,7 +18,7 @@ The project was developped using the following file architecture:
 *implementations_helper.py* : Contains complementary methods needed by *implementations.py* (e.g. gradient computation).  
 *costs.py* : Contains a few basic cost functions (e.g. MSE, MAE).  
 *notebook_helper.py* : Contains methods that happened to be useful when playing around inside a *Jupyter Notebbok* to figure out which model works best.  
-*plots.py* :  
+*plots.py* : Contains methods to plot meaningful data.  
 *helper.py* : The core code necessary to generate our model and compute the resulting prediction.  
 
 ### Remarks

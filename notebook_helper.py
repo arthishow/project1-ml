@@ -1,4 +1,7 @@
 import numpy as np
+from helper import build_poly
+from implementations import least_squares
+from costs import compute_categorical_loss
 
 def fast_build_poly(x, poly_degree_minus_one, degree):
     """Fast polynomial basis functions for input data x to be used in loops only."""
@@ -26,3 +29,27 @@ def build_k_indices(y, k_fold, seed=23):
     indices = np.random.permutation(N)
     k_indices = [indices[k * interval: (k + 1) * interval] for k in range(k_fold)]
     return np.array(k_indices)
+
+def cross_validation(y, x, k_indices, k, degree):
+    """Cross-validation using least squares."""
+    loss_te = 0
+    loss_tr = 0
+
+    for i in range(k):
+        x_te = x[k_indices[i]]
+        y_te = y[k_indices[i]]
+        remaining_indices = np.delete(np.arange(y.shape[0]), k_indices[i])
+        x_tr = x[remaining_indices]
+        y_tr = y[remaining_indices]
+
+        tx_te = build_poly(x_te, degree)
+        tx_tr = build_poly(x_tr, degree)
+        weights_tr, loss = least_squares(y_tr, tx_tr)
+
+        loss_tr += loss
+        loss_te += compute_categorical_loss(y_te, tx_te, weights_tr)
+
+    loss_te = loss_te/k
+    loss_tr = loss_tr/k
+
+    return loss_tr, loss_te
