@@ -43,10 +43,30 @@ def ridge_regression(y, tx, lambda_):
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """Logistic regression using gradient descent or SGD."""
-    raise NotImplementedError
-    return (w, loss)
+    w, loss,tol = initial_w, [], 0.00000001
+    for n_iter in range(max_iters):
+        grad, e = compute_log_grad(y, tx, w)
+        w = w - gamma*grad
+        if n_iter % 100 == 0:
+            print("Current iteration={i}, loss={l}".format(i=n_iter, l=e))
+        loss.append(compute_mse(e))
+        if (np.abs(loss[n_iter]-loss[n_iter-1]))<tol and n_iter>0:
+            print(np.abs(loss[n_iter]-loss[n_iter-1]))
+            return w, loss[-1]
+    return (w, loss[-1])
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """Regularized logistic regression using gradient descent or SGD."""
-    raise NotImplementedError
-    return (w, loss)
+    w, loss,tol = initial_w, [], 0.01
+    for n_iter in range(max_iters):
+        grad, e = compute_log_grad(y, tx, w)
+        e = e + lambda_*(np.linalg.norm(w)**2)
+        grad = grad + 2 * lambda_ * w
+        w = w - gamma*grad
+        if n_iter % 1000 == 0:
+            print("Current iteration={i}, loss={l}".format(i=n_iter, l=e))
+        loss.append(compute_mse(e))
+        if (np.abs(loss[n_iter]-loss[n_iter-1]))<tol and n_iter>0:
+            return w, loss[-1]
+    return (w, loss[-1])
+ 

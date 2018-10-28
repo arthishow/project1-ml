@@ -54,5 +54,12 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """Regularized logistic regression using gradient descent or SGD."""
-    raise NotImplementedError
-    return (w, loss)
+        w, loss,tol = initial_w, [], 0.01
+    for n_iter in range(max_iters):
+        grad, e = compute_reg_log_grad(y, tx, w)
+        w = w - gamma*grad
+        loss.append(compute_mse(e))
+        if (np.abs(loss[n_iter]-loss[n_iter-1]))<tol and n_iter>0:
+            return w, loss[-1]
+    return (w, loss[-1])
+ 

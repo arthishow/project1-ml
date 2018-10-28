@@ -9,6 +9,12 @@ def compute_gradient(y, tx, w):
     grad = -(tx.T@e)/N
     return (grad, e)
 
+def compute_log_grad(y,tx,w):
+    sig = np.divide(np.exp(tx@w),1+np.exp(tx@w))
+    grad = tx.T@(sig-y)
+    loss = np.sum(np.log(1+np.exp(tx@w))-y*(tx@w))
+    return grad, loss
+
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
     Generate a minibatch iterator for a dataset.
