@@ -9,6 +9,11 @@ def compute_categorical_loss(y, tx, w):
     loss = compute_mae(e)/2
     return loss
 
+def compute_log_likelihood(y, tx, w):
+    """Compute the log-likelihood."""
+    loss = np.sum(np.log(1 + np.exp(tx@w)) - y*(tx@w))
+    return loss
+
 def compute_mse_loss(y, tx, w):
     """Compute the mean square error between y and tx multiplied by w."""
     return compute_mse(compute_error(y, tx, w))
