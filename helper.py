@@ -1,30 +1,70 @@
 import numpy as np
 
+def generate_prediction(x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, y_tr_3, x_te_0, x_te_1, x_te_2, x_te_3, jet_num_te):
+    w_0 = least_squares(y_tr_0, build_poly(x_tr_0, 9))
+    w_1 = least_squares(y_tr_1, build_poly(x_tr_1, 15))
+    w_2 = least_squares(y_tr_2, build_poly(x_tr_2, 13))
+    w_3 = least_squares(y_tr_3, build_poly(x_tr_3, 12))
+
+    y_te_0 = predict_labels(w_0, build_poly(x_te_0, 9))
+    y_te_1 = predict_labels(w_1, build_poly(x_te_1, 15))
+    y_te_2 = predict_labels(w_2, build_poly(x_te_2, 13))
+    y_te_3 = predict_labels(w_3, build_poly(x_te_3, 12))
+
+    predicted_y_te = []
+    i_0, i_1, i_2, i_3 = 0, 0, 0, 0
+    for jet_num in jet_num_te:
+        if jet_num == 0:
+            predicted_y_te.append(y_te_0[i_0])
+            i_0 += 1
+        elif jet_num == 1:
+            predicted_y_te.append(y_te_1[i_1])
+            i_1 += 1
+        elif jet_num == 2:
+            predicted_y_te.append(y_te_2[i_2])
+            i_2 += 1
+        else:
+            predicted_y_te.append(y_te_3[i_3])
+            i_3 += 1
+
+    return predicted_y_te
+
+
 def preprocess_datasets(x_tr, y_tr, x_te, y_te):
-    x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, y_tr_3 = split_dataset_by_jet_num(x_tr, y_tr)
-    x_te_0, _, x_te_1, _, x_te_2, _, x_te_3, _ = split_dataset_by_jet_num(x_te, y_te)
+    x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, y_tr_3, _ = split_dataset_by_jet_num(x_tr, y_tr)
+    x_te_0, _, x_te_1, _, x_te_2, _, x_te_3, _, jet_num_te = split_dataset_by_jet_num(x_te, y_te)
 
     x_tr_0 = set_missing_values_to_mean(x_tr_0)
     x_tr_1 = set_missing_values_to_mean(x_tr_1)
     x_tr_2 = set_missing_values_to_mean(x_tr_2)
     x_tr_3 = set_missing_values_to_mean(x_tr_3)
 
-    x_tr_0 = remove_correlated_columns(x_tr_0)
-    x_tr_1 = remove_correlated_columns(x_tr_1)
-    x_tr_2 = remove_correlated_columns(x_tr_2)
-    x_tr_3 = remove_correlated_columns(x_tr_3)
+    x_tr_0, cols_0 = remove_correlated_columns(x_tr_0)
+    x_tr_1, cols_1 = remove_correlated_columns(x_tr_1)
+    x_tr_2, cols_2 = remove_correlated_columns(x_tr_2)
+    x_tr_3, cols_3 = remove_correlated_columns(x_tr_3)
 
     x_tr_0, mean_0, std_0 = standardize(x_tr_0)
     x_tr_1, mean_1, std_1 = standardize(x_tr_1)
     x_tr_2, mean_2, std_2 = standardize(x_tr_2)
     x_tr_3, mean_3, std_3 = standardize(x_tr_3)
 
+    x_te_0 = set_missing_values_to_mean(x_te_0)
+    x_te_1 = set_missing_values_to_mean(x_te_1)
+    x_te_2 = set_missing_values_to_mean(x_te_2)
+    x_te_3 = set_missing_values_to_mean(x_te_3)
+
+    x_te_0 = np.delete(x_te_0, cols_0, 1)
+    x_te_1 = np.delete(x_te_1, cols_1, 1)
+    x_te_2 = np.delete(x_te_2, cols_2, 1)
+    x_te_3 = np.delete(x_te_3, cols_3, 1)
+
     x_te_0 = (x_te_0-mean_0)/std_0
     x_te_1 = (x_te_1-mean_1)/std_1
     x_te_2 = (x_te_2-mean_2)/std_2
     x_te_3 = (x_te_3-mean_3)/std_3
 
-    return x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, y_tr_3, x_te_0, x_te_1, x_te_2, x_te_3
+    return x_tr_0, y_tr_0, x_tr_1, y_tr_1, x_tr_2, y_tr_2, x_tr_3, y_tr_3, x_te_0, x_te_1, x_te_2, x_te_3, jet_num_te
 
 def remove_correlated_columns(x, threshold=0.9):
     D = x.shape[1]
@@ -36,7 +76,7 @@ def remove_correlated_columns(x, threshold=0.9):
                 column_index.append(i)
 
     x = np.delete(x, column_index, 1)
-    return x
+    return x, column_index
 
 def split_dataset_by_jet_num(x, y):
     x_0 = []
@@ -51,6 +91,7 @@ def split_dataset_by_jet_num(x, y):
     x_3 = []
     y_3 = []
     unnecessary_columns_3 = [22]
+    jet_num = []
     for index, row in enumerate(x):
         if x[index, 22] == 0:
             x_0.append(np.delete(row, unnecessary_columns_0))
@@ -64,7 +105,7 @@ def split_dataset_by_jet_num(x, y):
         else:
             x_3.append(np.delete(row, unnecessary_columns_3))
             y_3.append(y[index])
-
+        jet_num.append(x[index, 22])
     x_0 = np.asarray(x_0)
     x_1 = np.asarray(x_1)
     x_2 = np.asarray(x_2)
@@ -74,7 +115,7 @@ def split_dataset_by_jet_num(x, y):
     y_2 = np.asarray(y_2)
     y_3 = np.asarray(y_3)
 
-    return x_0, y_0, x_1, y_1, x_2, y_2, x_3, y_3
+    return x_0, y_0, x_1, y_1, x_2, y_2, x_3, y_3, jet_num
 
 def remove_missing_values(x):
     """Remove columns containing outliers (-999)."""
