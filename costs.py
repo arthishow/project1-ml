@@ -10,11 +10,11 @@ def compute_categorical_loss(y, tx, w):
     return loss
 
 def compute_mse_loss(y, tx, w):
-    """Compute the mean square error."""
+    """Compute the mean square error between y and tx multiplied by w."""
     return compute_mse(compute_error(y, tx, w))
 
 def compute_mae_loss(y, tx, w):
-    """Compute the mean absolute error."""
+    """Compute the mean absolute error between y and tx multiplied by w."""
     return compute_mae(compute_error(y, tx, w))
 
 def compute_error(y, tx, w):
@@ -23,9 +23,11 @@ def compute_error(y, tx, w):
     return e
 
 def compute_mse(e):
+    """Compute the mean square error."""
     loss = np.mean(e**2)/2
     return loss
 
 def compute_mae(e):
+    """Compute the mean absolute error."""
     loss = np.mean(abs(e))
     return loss
