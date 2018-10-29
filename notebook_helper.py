@@ -47,7 +47,7 @@ def cross_validation(y, x, k_indices, k, degree):
         weights_tr, loss = least_squares(y_tr, tx_tr)
 
         loss_tr += loss
-        loss_te += compute_categorical_loss(y_te, tx_te, weights_tr)
+        loss_te += compute_mse_loss(y_te, tx_te, weights_tr)
 
     loss_te = loss_te/k
     loss_tr = loss_tr/k
