@@ -8,7 +8,7 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     for n_iter in range(max_iters):
         grad, e = compute_gradient(y, tx, w)
         w = w - gamma*grad
-    loss = compute_categorical_loss(y, tx, w)
+    loss = compute_mse_loss(y, tx, w)
     return (w, loss)
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
@@ -19,7 +19,7 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size):
             grad, e = compute_gradient(y_batch, tx_batch, w)
             w = w - gamma*grad
-    loss = compute_categorical_loss(y, tx, w)
+    loss = compute_mse_loss(y, tx, w)
     return (w, loss)
 
 def least_squares(y, tx):
@@ -27,7 +27,7 @@ def least_squares(y, tx):
     a = tx.T@tx #Gram matrix: X_T*X
     b = tx.T@y #X_T*y
     w = np.linalg.solve(a, b) #solve (X_T*X)*w = X_T*y and return w
-    loss = compute_categorical_loss(y, tx, w)
+    loss = compute_mse_loss(y, tx, w)
     return (w, loss)
 
 def ridge_regression(y, tx, lambda_):
@@ -37,7 +37,7 @@ def ridge_regression(y, tx, lambda_):
     a = tx.T@tx + lambda_I
     b = tx.T@y
     w = np.linalg.solve(a, b) #solve (X_T*X + 2*N*lambda*I)*w = X_T*y and return w
-    loss = compute_categorical_loss(y, tx, w)
+    loss = compute_mse_loss(y, tx, w)
     return (w, loss)
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
