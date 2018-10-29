@@ -5,7 +5,6 @@ def compute_categorical_loss(y, tx, w):
     """Compute the percentage of wrongly categorized predictions."""
     pred = predict_labels(w, tx)
     e = y - pred
-    N = y.shape[0]
     loss = compute_mae(e)/2
     return loss
 

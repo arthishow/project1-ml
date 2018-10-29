@@ -158,7 +158,7 @@ def set_missing_values_to_mean(x):
     return x_clean
 
 def standardize(x):
-    """Normalize the given dataset."""
+    """Standardize the given dataset."""
     mean = np.mean(x, axis=0)
     std = np.std(x, axis=0)
     return (x-mean)/std, mean, std
