@@ -44,7 +44,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """Logistic regression using gradient descent."""
     w = initial_w
     for n_iter in range(max_iters):
-        grad, e = compute_log_grad(y, tx, w)
+        grad = compute_log_grad(y, tx, w)
         w = w - gamma*grad
     loss = compute_log_likelihood(y, tx, w)
     return (w, loss)

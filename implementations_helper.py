@@ -4,7 +4,7 @@ from proj1_helpers import predict_labels
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
-    e = abs(y-predict_labels(w,tx))
+    e = y-tx @ np.transpose(w)
     N = y.shape[0]
     grad = -(tx.T@e)/N
     return (grad, e)
