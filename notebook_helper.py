@@ -1,7 +1,7 @@
 import numpy as np
 from helper import build_poly
 from implementations import least_squares
-from costs import compute_categorical_loss
+from costs import *
 
 def fast_build_poly(x, poly_degree_minus_one, degree):
     """Fast polynomial basis functions for input data x to be used in loops only."""
