@@ -3,12 +3,10 @@
 - Arthur Vernet (245828)
 - Pablo Guilland (246550)
 
-[Report link](https://www.overleaf.com/8274881383mhvqpvfgcrbk)
-
 ### Generate a prediction
 In order to generate a prediction using our model, please have the training and test sets, named respectively *train.csv* and *test.csv*, located in a folder called *data*, in the same folder as the code. Then use,
 $ python run.py
-A prediction, called *output.csv*, will be created in a folder named *predictions*.
+A prediction, called *output.csv*, will be created in the same folder *run.py* is located.
 
 ### Code architecture
 The project was developed using the following file architecture:  
